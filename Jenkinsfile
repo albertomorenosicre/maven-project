@@ -4,10 +4,10 @@ pipeline {
 	tools {
         maven 'localMaven'
     }
-    stages{
-        stage('Build'){
+    stages {
+        stage('build') {
             steps {
-                sh 'mvn clean PipelineAsCodeExample'
+                sh 'mvn --version'
             }
         }
     }

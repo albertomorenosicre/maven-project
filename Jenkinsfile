@@ -1,13 +1,9 @@
-pipeline {
-    agent any
-	
-	tools {
-        maven 'localMaven'
-    }
-    stages {
-        stage('build') {
-            steps {
-                sh 'mvn --version'
+pipeline { 
+    agent any  
+    stages { 
+        stage('Build') { 
+            steps { 
+               echo 'This is a minimal pipeline.' 
             }
         }
     }

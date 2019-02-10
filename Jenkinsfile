@@ -37,7 +37,7 @@ pipeline {
                 {
                     steps 
                     {
-						bat 'winscp -i C:/Users/Alberto/Desktop/Trabajo/JAVA Cursos/Jenkins/tomcat-demo.pem **/target/*.war ec2-user@${params.tomcat_dev}:/var/lib/tomcat8/webapps'
+						bat '-scp -i C:/Users/Alberto/Desktop/Trabajo/JAVA Cursos/Jenkins/tomcat-demo.ppk **/target/*.war ec2-user@${params.tomcat_dev}:/var/lib/tomcat8/webapps'
                     }
                 }
             }

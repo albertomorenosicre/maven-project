@@ -1,45 +1,27 @@
-pipeline {
+pipeline { 
     agent any
-
-    parameters 
-    {
-		string(name: 'tomcat_dev', defaultValue: '18.222.125.0', description: 'Staging Server')
+    tools {
+        maven 'localMaven'
     }
-
-    triggers 
-    {
-		pollSCM('* * * * *')
-     }
-
-	stages
-	{
-        stage('Build')
-        {
-            steps 
-            {
-				bat 'mvn clean package'
+      
+    stages { 
+        stage('Build') { 
+            steps { 
+               echo 'This is a minimal pipeline.' 
+               echo "PATH = ${PATH}"
+			   echo "M2_HOME = ${M2_HOME}"
+			   bat 'mvn clean package'
             }
-            post 
-            {
-                success 
-                {
+            post {
+                success {
                     echo 'Now Archiving...'
-					archiveArtifacts artifacts: '**/target/*.war'
+                    archiveArtifacts artifacts: '**/target/*.war'
                 }
             }
         }
-
-        stage ('Deployments')
-        {
-			parallel
-			{
-                stage ('Deploy to Staging')
-                {
-                    steps 
-                    {
-						bat "winscp.com -i C:/Users/Alberto/Desktop/Trabajo/JAVA Cursos/Jenkins/tomcat-demo.pem **/target/*.war ec2-user@${params.tomcat_dev}:/var/lib/tomcat8/webapps"
-                    }
-                }
+        stage ('Deploy to Staging'){
+            steps {
+                build job: 'Deploy-to-staging'
             }
         }
     }

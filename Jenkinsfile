@@ -1,21 +1,28 @@
 pipeline {
     agent any
 
-    parameters {
+    parameters 
+    {
 		string(name: 'tomcat_dev', defaultValue: '18.222.125.0', description: 'Staging Server')
     }
 
-    triggers {
+    triggers 
+    {
 		pollSCM('* * * * *')
      }
 
-	stages{
-        stage('Build'){
-            steps {
+	stages
+	{
+        stage('Build')
+        {
+            steps 
+            {
 				bat 'mvn clean package'
             }
-            post {
-                success {
+            post 
+            {
+                success 
+                {
                     echo 'Now Archiving...'
 					archiveArtifacts artifacts: '**/target/*.war'
                 }
@@ -26,9 +33,11 @@ pipeline {
         {
 			parallel
 			{
-                stage ('Deploy to Staging'){
-                    steps {
-						bat "winscp -i /home/jenkins/tomcat-demo.pem **/target/*.war ec2-user@${params.tomcat_dev}:/var/lib/tomcat8/webapps"
+                stage ('Deploy to Staging')
+                {
+                    steps 
+                    {
+						bat "winscp -i C:/Users/Alberto/Desktop/Trabajo/JAVA Cursos/Jenkins/tomcat-demo.pem **/target/*.war ec2-user@${params.tomcat_dev}:/var/lib/tomcat8/webapps"
                     }
                 }
             }
